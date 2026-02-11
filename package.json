@@ -1,0 +1,54 @@
+{
+  "name": "no-horizon-game",
+  "version": "0.1.0",
+  "description": "No Horizon - and no exit for you!",
+  "main": "dist/main/index.js",
+  "author": "Gerrxt",
+  "type": "module",
+  "scripts": {
+    "dev": "bunx electron-vite dev",
+    "start": "bunx electron-vite preview",
+    "build": "bunx electron-vite build",
+    "package": "bunx electron-builder",
+    "package:win": "bunx electron-vite build && bunx electron-builder --win",
+    "package:linux": "bunx electron-vite build && bunx electron-builder --linux",
+    "package:mac": "bunx electron-vite build && bunx electron-builder --mac"
+  },
+  "keywords": ["electron", "bun", "typescript", "vite"],
+  "license": "MIT",
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "@types/bun": "latest",
+    "electron": "^28.3.3",
+    "electron-builder": "^26.7.0",
+    "electron-vite": "^5.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  },
+  "dependencies": {
+    "@motionone/dom": "^10.18.0",
+    "svelte": "^5.50.1",
+    "three": "^0.182.0"
+  },
+  "build": {
+    "appId": "com.gerrxt.nohorizongame",
+    "productName": "No Horizon Game",
+    "files": [
+      "dist/**",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "mac": {
+      "target": ["dmg", "zip"]
+    },
+    "win": {
+      "target": ["nsis", "zip"]
+    },
+    "linux": {
+      "target": ["AppImage", "deb"]
+    }
+  }
+}
