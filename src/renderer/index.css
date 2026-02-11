@@ -1,0 +1,25 @@
+@import "tailwindcss";
+@import "./styles/animations.css";
+@import "./styles/effects.css";
+@import "./styles/components.css";
+
+:root {
+  --mouse-x: 0;
+  --mouse-y: 0;
+}
+
+body:has(#splash-screen:not(.hidden)),
+body:has(#splash-screen-2:not(.hidden)) {
+  cursor: none !important;
+}
+
+body:has(#splash-screen:not(.hidden)) *,
+body:has(#splash-screen-2:not(.hidden)) * {
+  cursor: none !important;
+}
+
+* {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='7' fill='none' stroke='rgba(255,255,255,0.8)' stroke-width='1.5'/%3E%3C/svg%3E") 12 12, auto !important;
+  user-select: none;
+  -webkit-user-select: none;
+}

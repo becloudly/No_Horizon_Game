@@ -1,0 +1,54 @@
+/* Component Styles */
+
+/* Splash Screen */
+#splash-screen,
+#splash-screen-2 {
+  cursor: none !important;
+  pointer-events: none !important;
+}
+
+#splash-screen *,
+#splash-screen-2 * {
+  cursor: none !important;
+  pointer-events: none !important;
+}
+
+#splash-screen.fade-out,
+#splash-screen-2.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#splash-screen.hidden,
+#splash-screen-2.hidden {
+  display: none;
+}
+
+/* Disclaimer Screen */
+#disclaimer-screen.show {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+#disclaimer-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.disclaimer-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.disclaimer-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.disclaimer-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.disclaimer-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
