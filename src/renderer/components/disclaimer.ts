@@ -12,6 +12,7 @@ let langDeBtn: HTMLElement | null = null;
 let disclaimerEn: HTMLElement | null = null;
 let disclaimerDe: HTMLElement | null = null;
 let proceedBtn: HTMLElement | null = null;
+let unsubscribeLanguageUpdates: (() => void) | null = null;
 
 const updateLanguageUI = (lang: Language): void => {
 	const enTranslations = getTranslations('en');
@@ -69,7 +70,10 @@ export const initDisclaimer = (onProceed: () => void): void => {
 
 	// Set initial language UI
 	updateLanguageUI(getCurrentLanguage());
-	subscribe((lang) => {
+	if (unsubscribeLanguageUpdates) {
+		unsubscribeLanguageUpdates();
+	}
+	unsubscribeLanguageUpdates = subscribe((lang) => {
 		updateLanguageUI(lang);
 	});
 

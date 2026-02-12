@@ -2,6 +2,16 @@ import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { registerAppControlIpc } from './ipc/app-control';
+import {
+  HAS_SAVE_GAME_CHANNEL,
+  isLanguage,
+  LOAD_LANGUAGE_CHANNEL,
+  SAVE_LANGUAGE_CHANNEL,
+  type HasSaveGameResponse,
+  type LoadLanguageResponse,
+  type SaveLanguageRequest,
+  type SaveLanguageResponse,
+} from '../shared';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -50,22 +60,36 @@ app.whenReady().then(() => {
   const languageFilePath = join(app.getPath('userData'), 'language.json');
   const saveGameFilePath = join(app.getPath('userData'), 'savegame.json');
 
-  ipcMain.handle('save-language', async (_event, language: string) => {
+  ipcMain.handle(SAVE_LANGUAGE_CHANNEL, async (_event, request: SaveLanguageRequest): Promise<SaveLanguageResponse> => {
     try {
-      await Bun.write(languageFilePath, JSON.stringify({ language }));
-      return true;
+      if (!isLanguage(request?.language)) {
+        return { ok: false, error: 'Unsupported language' };
+      }
+
+      await Bun.write(languageFilePath, JSON.stringify({ language: request.language }));
+      return { ok: true };
     } catch (error) {
       console.error('Failed to save language:', error);
-      return false;
+      return {
+        ok: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
     }
   });
 
-  ipcMain.handle('load-language', async () => {
+  ipcMain.handle(LOAD_LANGUAGE_CHANNEL, async (): Promise<LoadLanguageResponse> => {
     try {
       const file = Bun.file(languageFilePath);
       if (await file.exists()) {
-        const data = await file.json();
-        return data.language || 'en';
+        const data: unknown = await file.json();
+        if (
+          typeof data === 'object' &&
+          data !== null &&
+          'language' in data &&
+          isLanguage((data as { language: unknown }).language)
+        ) {
+          return (data as { language: LoadLanguageResponse }).language;
+        }
       }
       return 'en';
     } catch (error) {
@@ -74,7 +98,7 @@ app.whenReady().then(() => {
     }
   });
 
-  ipcMain.handle('has-save-game', async () => {
+  ipcMain.handle(HAS_SAVE_GAME_CHANNEL, async (): Promise<HasSaveGameResponse> => {
     try {
       const file = Bun.file(saveGameFilePath);
       return await file.exists();

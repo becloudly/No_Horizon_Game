@@ -16,6 +16,7 @@ const menuButtons = {
 
 let saveGameExists = false;
 let menuScreen: HTMLElement | null = null;
+let unsubscribeLanguageUpdates: (() => void) | null = null;
 
 const updateMenuText: LanguageChangeCallback = (_lang, t) => {
 	const btnBegin = document.getElementById(menuButtons.begin);
@@ -63,7 +64,10 @@ export const initMenu = async (): Promise<void> => {
 	menuScreen = document.getElementById('menu-screen');
 
 	// Subscribe to language changes
-	subscribe(updateMenuText);
+	if (unsubscribeLanguageUpdates) {
+		unsubscribeLanguageUpdates();
+	}
+	unsubscribeLanguageUpdates = subscribe(updateMenuText);
 
 	// Initial update
 	const t = getTranslations();

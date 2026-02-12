@@ -38,7 +38,10 @@ export const setLanguage = async (lang: Language): Promise<void> => {
 	// Save to AppData via IPC
 	if (window.electronAPI) {
 		try {
-			await window.electronAPI.saveLanguage(lang);
+			const result = await window.electronAPI.saveLanguage(lang);
+			if (!result.ok) {
+				console.error('Failed to save language:', result.error);
+			}
 		} catch (err) {
 			console.error('Failed to save language:', err);
 		}
@@ -50,8 +53,7 @@ export const setLanguage = async (lang: Language): Promise<void> => {
 export const loadSavedLanguage = async (): Promise<Language> => {
 	if (window.electronAPI) {
 		try {
-			const savedLang = await window.electronAPI.loadLanguage();
-			currentLanguage = (savedLang === 'de' ? 'de' : 'en') as Language;
+			currentLanguage = await window.electronAPI.loadLanguage();
 		} catch (err) {
 			console.error('Failed to load language:', err);
 			currentLanguage = 'en';

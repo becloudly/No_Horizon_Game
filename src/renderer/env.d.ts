@@ -4,11 +4,11 @@
 
 interface Window {
 	electronAPI?: {
-		saveLanguage: (language: string) => Promise<boolean>;
-		loadLanguage: () => Promise<string>;
-		hasSaveGame: () => Promise<boolean>;
+		saveLanguage: (language: import('../shared').Language) => Promise<import('../shared').SaveLanguageResponse>;
+		loadLanguage: () => Promise<import('../shared').LoadLanguageResponse>;
+		hasSaveGame: () => Promise<import('../shared').HasSaveGameResponse>;
 	};
 	appControl?: {
-		quit: () => Promise<import('../shared/ipc').AppControlResponse>;
+		quit: () => Promise<import('../shared').AppControlResponse>;
 	};
 }

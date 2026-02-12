@@ -10,6 +10,7 @@ let settingsDim: HTMLElement | null = null;
 let backButton: HTMLElement | null = null;
 let backButtonLabel: HTMLElement | null = null;
 let titleLabel: HTMLElement | null = null;
+let unsubscribeLanguageUpdates: (() => void) | null = null;
 
 const updateSettingsText: LanguageChangeCallback = (_lang, t) => {
 	if (titleLabel) {
@@ -33,7 +34,10 @@ export const initSettings = (onBack: () => void): void => {
 	}
 
 	updateSettingsText('en', getTranslations());
-	subscribe(updateSettingsText);
+	if (unsubscribeLanguageUpdates) {
+		unsubscribeLanguageUpdates();
+	}
+	unsubscribeLanguageUpdates = subscribe(updateSettingsText);
 
 	backButton?.addEventListener('click', () => {
 		hideSettings();

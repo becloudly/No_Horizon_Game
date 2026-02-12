@@ -9,31 +9,73 @@ let menuTrackFadeHandle: number | null = null;
 let menuTrackBaseVolume = 1;
 let globalVolume = 0.2;
 let pendingMenuTrackPlay = false;
+let menuTrackSourceIndex = 0;
 
 const clamp01 = (value: number): number => Math.min(1, Math.max(0, value));
 const clampPercent = (value: number): number => Math.min(100, Math.max(0, value));
 const applyGlobalVolume = (baseVolume: number): number => clamp01(baseVolume) * globalVolume;
+const resolveAssetUrl = (path: string): string => new URL(path, window.location.href).toString();
+
+const MENU_TRACK_SOURCES = [
+	'Audio/soundtrack/menu_track.mp3',
+	'/Audio/soundtrack/menu_track.mp3',
+	'Audio/keyboard.mp3',
+	'/Audio/keyboard.mp3',
+] as const;
+
+const CLICK_SOUND_SOURCES = [
+	'Audio/mouse-clicking.mp3',
+	'/Audio/mouse-clicking.mp3',
+] as const;
+
+const tryNextMenuTrackSource = (): void => {
+	if (!menuTrack) {
+		return;
+	}
+
+	menuTrackSourceIndex += 1;
+	if (menuTrackSourceIndex >= MENU_TRACK_SOURCES.length) {
+		menuTrackSourceIndex = MENU_TRACK_SOURCES.length - 1;
+	}
+
+	menuTrack.src = resolveAssetUrl(MENU_TRACK_SOURCES[menuTrackSourceIndex]);
+	menuTrack.load();
+	pendingMenuTrackPlay = true;
+};
+
+const playMenuTrack = (): void => {
+	if (!menuTrack) {
+		return;
+	}
+
+	menuTrack.muted = false;
+	menuTrack.volume = applyGlobalVolume(menuTrackBaseVolume);
+	menuTrack.play()
+		.then(() => {
+			pendingMenuTrackPlay = false;
+		})
+		.catch((err) => {
+			pendingMenuTrackPlay = true;
+			console.warn('Menu track play failed:', err);
+		});
+};
 
 export const initClickSound = (): void => {
-	clickSound = new Audio('/Audio/mouse-clicking.mp3');
+	clickSound = new Audio(resolveAssetUrl(CLICK_SOUND_SOURCES[0]));
+	clickSound.addEventListener('error', () => {
+		clickSound = new Audio(resolveAssetUrl(CLICK_SOUND_SOURCES[1]));
+		clickSound.volume = applyGlobalVolume(1);
+	});
 	clickSound.volume = applyGlobalVolume(1);
 
 	const resumeMenuTrack = (): void => {
 		if (!menuTrack) {
 			return;
 		}
-		if (!pendingMenuTrackPlay && !menuTrack.paused) {
+		if (!pendingMenuTrackPlay && !menuTrack.paused && menuTrack.currentTime > 0) {
 			return;
 		}
-		menuTrack.volume = applyGlobalVolume(menuTrackBaseVolume);
-		menuTrack.play()
-			.then(() => {
-				pendingMenuTrackPlay = false;
-			})
-			.catch((err) => {
-				pendingMenuTrackPlay = true;
-				console.warn('Menu track play failed:', err);
-			});
+		playMenuTrack();
 	};
 
 	document.addEventListener('click', () => {
@@ -64,6 +106,7 @@ export const setGlobalVolume = (percent: number): void => {
 	}
 
 	if (menuTrack) {
+		menuTrack.muted = false;
 		menuTrack.volume = applyGlobalVolume(menuTrackBaseVolume);
 	}
 };
@@ -72,9 +115,13 @@ export const getGlobalVolume = (): number => globalVolume * 100;
 
 export const startMenuTrackFadeIn = (targetBaseVolume = 1, fadeDurationMs = 1000): void => {
 	if (!menuTrack) {
-		menuTrack = new Audio('/Audio/soundtrack/menu_track.mp3');
+		menuTrackSourceIndex = 0;
+		menuTrack = new Audio(resolveAssetUrl(MENU_TRACK_SOURCES[0]));
 		menuTrack.loop = true;
+		menuTrack.preload = 'auto';
+		menuTrack.muted = false;
 		menuTrack.volume = 0;
+		menuTrack.addEventListener('error', tryNextMenuTrackSource);
 	}
 
 	menuTrackBaseVolume = clamp01(targetBaseVolume);
@@ -89,10 +136,7 @@ export const startMenuTrackFadeIn = (targetBaseVolume = 1, fadeDurationMs = 1000
 	const targetVolume = applyGlobalVolume(menuTrackBaseVolume);
 	const volumeDelta = targetVolume - startVolume;
 
-	menuTrack.play().catch((err) => {
-		console.warn('Menu track play failed:', err);
-		pendingMenuTrackPlay = true;
-	});
+	playMenuTrack();
 
 	const step = (now: number): void => {
 		const elapsed = now - startTime;
