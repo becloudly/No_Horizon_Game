@@ -24,10 +24,7 @@ initParallax();
 // Hide menu initially
 hideMenu();
 
-// Initialize Svelte settings store (loads from localStorage)
-settings.subscribe(() => {
-	// Store is now initialized and reactive
-});
+// Initialize Svelte settings store (loads from localStorage automatically)
 console.log('Settings loaded from localStorage');
 
 // Initialize components

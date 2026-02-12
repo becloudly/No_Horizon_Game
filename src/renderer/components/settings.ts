@@ -37,7 +37,7 @@ export const initSettings = (onBack: () => void): void => {
 	}
 
 	// Create settings content container if it doesn't exist
-	settingsContent = settingsScreen.querySelector('.settings-content') as HTMLElement;
+	settingsContent = settingsScreen.querySelector('#settings-svelte-mount') as HTMLElement;
 	if (!settingsContent) {
 		settingsContent = document.createElement('div');
 		settingsContent.id = 'settings-svelte-mount';

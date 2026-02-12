@@ -62,9 +62,9 @@
 		<div class="setting-item">
 			<div class="flex justify-between items-center">
 				<div class="flex-1">
-					<label class="setting-label font-mono text-lg tracking-widest text-white/80 mb-2 block">
+					<div class="setting-label font-mono text-lg tracking-widest text-white/80 mb-2 block">
 						{t.settings.streamerMode}
-					</label>
+					</div>
 				</div>
 				<StreamerModeToggle tooltip={t.settings.streamerModeTooltip} />
 			</div>

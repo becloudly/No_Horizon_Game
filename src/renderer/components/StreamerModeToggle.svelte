@@ -21,14 +21,16 @@
 
 <div class="relative inline-block">
 	<!-- Label with tooltip -->
-	<button
-		type="button"
+	<div
+		role="button"
 		class="setting-label font-mono text-lg tracking-widest text-white/80 mb-2 block cursor-help text-left"
 		on:mouseenter={() => showTooltip = true}
 		on:mouseleave={() => showTooltip = false}
 		on:focus={() => showTooltip = true}
 		on:blur={() => showTooltip = false}
+		on:keydown={handleKeydown}
 		aria-describedby="streamer-mode-tooltip"
+		tabindex="0"
 	>
 		<!-- Tooltip -->
 		<div 
@@ -42,7 +44,7 @@
 		>
 			{tooltip}
 		</div>
-	</button>
+	</div>
 	
 	<!-- Toggle Switch -->
 	<button
@@ -53,7 +55,6 @@
 		role="switch"
 		aria-checked={enabled}
 		aria-label="Toggle streamer mode"
-		tabindex="0"
 	>
 		<div 
 			class="toggle-track absolute inset-0 border transition-all duration-300"

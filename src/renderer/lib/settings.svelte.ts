@@ -52,24 +52,6 @@ function saveSettings(settings: SettingsState): void {
 	}
 }
 
-/**
- * Create a persistent writable store
- */
-function createPersistentStore<T>(key: string, initialValue: T): Writable<T> {
-	const store = writable<T>(initialValue);
-	
-	// Save to localStorage on every change
-	store.subscribe((value) => {
-		try {
-			localStorage.setItem(key, JSON.stringify(value));
-		} catch (err) {
-			console.error(`Failed to persist ${key}:`, err);
-		}
-	});
-	
-	return store;
-}
-
 // Initialize settings from localStorage
 const initialSettings = loadSettings();
 
