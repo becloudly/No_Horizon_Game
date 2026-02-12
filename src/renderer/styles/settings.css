@@ -137,6 +137,13 @@
 	z-index: 100;
 }
 
+/* Make tooltip visible on focus for keyboard users */
+.setting-label:focus-within .tooltip,
+.setting-label:hover .tooltip {
+	opacity: 1;
+	pointer-events: auto;
+}
+
 /* Settings Content Scrollbar */
 .settings-content {
 	scrollbar-width: thin;

@@ -103,9 +103,9 @@ const createSettingsUI = (): void => {
 			<div class="setting-item">
 				<div class="flex justify-between items-center">
 					<div class="flex-1">
-						<label id="streamer-mode-label" class="setting-label font-mono text-lg tracking-widest text-white/80 mb-2 block relative group cursor-help">
+						<label id="streamer-mode-label" class="setting-label font-mono text-lg tracking-widest text-white/80 mb-2 block relative group cursor-help" aria-describedby="streamer-mode-tooltip">
 							${t.settings.streamerMode}
-							<div id="streamer-mode-tooltip" class="tooltip absolute left-0 top-full mt-4 w-80 bg-black/95 border border-white/40 p-4 font-mono text-sm text-white/80 leading-relaxed opacity-0 pointer-events-none transition-opacity duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)] z-50">
+							<div id="streamer-mode-tooltip" role="tooltip" class="tooltip absolute left-0 top-full mt-4 w-80 bg-black/95 border border-white/40 p-4 font-mono text-sm text-white/80 leading-relaxed opacity-0 transition-opacity duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)] z-50">
 								${t.settings.streamerModeTooltip}
 							</div>
 						</label>
@@ -114,6 +114,10 @@ const createSettingsUI = (): void => {
 						id="streamer-mode-toggle" 
 						class="streamer-toggle relative inline-block w-20 h-10 transition-all duration-300 cursor-pointer"
 						data-enabled="${settings.streamerMode}"
+						role="switch"
+						aria-checked="${settings.streamerMode}"
+						aria-labelledby="streamer-mode-label"
+						tabindex="0"
 					>
 						<div class="toggle-track absolute inset-0 bg-white/20 border border-white/30 transition-all duration-300"></div>
 						<div class="toggle-thumb absolute top-1 left-1 w-8 h-8 bg-white/90 transition-all duration-300 shadow-[0_0_8px_rgba(255,255,255,0.3)]"></div>
@@ -188,6 +192,7 @@ const setupStreamerModeToggle = (): void => {
 		if (!streamerModeToggle) return;
 		
 		streamerModeToggle.setAttribute('data-enabled', String(enabled));
+		streamerModeToggle.setAttribute('aria-checked', String(enabled));
 		
 		const track = streamerModeToggle.querySelector('.toggle-track') as HTMLElement;
 		const thumb = streamerModeToggle.querySelector('.toggle-thumb') as HTMLElement;
@@ -224,11 +229,22 @@ const setupStreamerModeToggle = (): void => {
 		}
 	};
 
-	streamerModeToggle.addEventListener('click', () => {
-		const currentState = streamerModeToggle?.getAttribute('data-enabled') === 'true';
+	const toggleSwitch = () => {
+		if (!streamerModeToggle) return;
+		const currentState = streamerModeToggle.getAttribute('data-enabled') === 'true';
 		const newState = !currentState;
 		updateToggleUI(newState);
 		setStreamerMode(newState);
+	};
+
+	streamerModeToggle.addEventListener('click', toggleSwitch);
+	
+	// Add keyboard support
+	streamerModeToggle.addEventListener('keydown', (e) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault();
+			toggleSwitch();
+		}
 	});
 
 	// Set initial state
@@ -299,7 +315,7 @@ export const initSettings = (onBack: () => void): void => {
 	}
 	unsubscribeSettingsUpdates = subscribeSettings((settings: SettingsState) => {
 		// Update UI when settings change from external sources
-		if (volumeSlider && parseInt(volumeSlider.value) !== settings.volume) {
+		if (volumeSlider && parseInt(volumeSlider.value, 10) !== settings.volume) {
 			volumeSlider.value = String(settings.volume);
 			if (volumeValue) {
 				volumeValue.textContent = `${settings.volume}%`;

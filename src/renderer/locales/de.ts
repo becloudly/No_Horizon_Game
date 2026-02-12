@@ -16,7 +16,7 @@ export const de = {
 		language: 'SPRACHE',
 		volume: 'LAUTSTÄRKE',
 		streamerMode: 'STREAMER-MODUS',
-		streamerModeTooltip: 'Verbirgt persönliche IP-Adressen, Servernamen und sensible Benutzerinformationen, um Stream-Sniping zu verhindern.',
+		streamerModeTooltip: 'Verbirgt persönliche Informationen wie Systemdetails, Dateipfade und andere identifizierende Daten während Gameplay-Aufnahmen oder Streams.',
 	},
 	proceedBtn: 'Spielen',
 	disclaimer: `DISCLAIMER

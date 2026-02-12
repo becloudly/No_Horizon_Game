@@ -16,7 +16,7 @@ export const en = {
 		language: 'LANGUAGE',
 		volume: 'VOLUME',
 		streamerMode: 'STREAMER MODE',
-		streamerModeTooltip: 'Hides personal IP addresses, server names, and sensitive user info to prevent stream sniping.',
+		streamerModeTooltip: 'Hides personal information such as system details, file paths, and other identifying data during gameplay recordings or streams.',
 	},
 	proceedBtn: 'Play',
 	disclaimer: `DISCLAIMER

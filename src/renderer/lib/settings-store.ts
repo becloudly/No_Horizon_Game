@@ -26,7 +26,15 @@ export const loadSettings = (): SettingsState => {
 	try {
 		const stored = localStorage.getItem(STORAGE_KEY);
 		if (stored) {
-			const parsed = JSON.parse(stored) as Partial<SettingsState>;
+			const parsed = JSON.parse(stored);
+			
+			// Validate structure
+			if (typeof parsed !== 'object' || parsed === null) {
+				console.warn('Invalid settings data, using defaults');
+				currentSettings = { ...DEFAULT_SETTINGS };
+				return currentSettings;
+			}
+			
 			currentSettings = {
 				volume: typeof parsed.volume === 'number' ? Math.max(0, Math.min(100, parsed.volume)) : DEFAULT_SETTINGS.volume,
 				streamerMode: typeof parsed.streamerMode === 'boolean' ? parsed.streamerMode : DEFAULT_SETTINGS.streamerMode,
