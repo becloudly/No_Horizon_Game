@@ -1,6 +1,7 @@
 import { defineConfig } from 'electron-vite';
 import { resolve } from 'node:path';
 import tailwindcss from '@tailwindcss/vite';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
 
 export default defineConfig({
   main: {
@@ -27,6 +28,7 @@ export default defineConfig({
     root: 'src/renderer',
     publicDir: '../assets',
     plugins: [
+      svelte(),
       tailwindcss()
     ],
     build: {
