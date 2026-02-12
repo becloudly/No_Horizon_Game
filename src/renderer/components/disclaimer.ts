@@ -4,6 +4,7 @@
 
 import type { Language } from '../locales';
 import { setLanguage, getCurrentLanguage, getTranslations, subscribe } from '../lib/i18n';
+import { startMenuTrackFadeIn } from '../lib/audio';
 
 let disclaimerScreen: HTMLElement | null = null;
 let langEnBtn: HTMLElement | null = null;
@@ -89,5 +90,6 @@ export const initDisclaimer = (onProceed: () => void): void => {
 };
 
 export const showDisclaimer = (): void => {
+	startMenuTrackFadeIn(1, 1000);
 	disclaimerScreen?.classList.add('show');
 };

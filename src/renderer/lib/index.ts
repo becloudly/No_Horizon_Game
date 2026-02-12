@@ -1,4 +1,11 @@
-export { initClickSound, enableClickSound, disableClickSound } from './audio';
+export {
+	initClickSound,
+	enableClickSound,
+	disableClickSound,
+	startMenuTrackFadeIn,
+	setGlobalVolume,
+	getGlobalVolume,
+} from './audio';
 export { initParallax } from './parallax';
 export {
 	getCurrentLanguage,

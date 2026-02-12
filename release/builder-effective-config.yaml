@@ -1,0 +1,22 @@
+directories:
+  output: release
+  buildResources: build
+appId: com.gerrxt.nohorizongame
+productName: No Horizon Game
+files:
+  - filter:
+      - dist/**
+      - package.json
+mac:
+  target:
+    - dmg
+    - zip
+win:
+  target:
+    - nsis
+    - zip
+linux:
+  target:
+    - AppImage
+    - deb
+electronVersion: 28.3.3

@@ -10,12 +10,16 @@ export const en = {
 		options: 'OPTIONS',
 		exit: 'EXIT',
 	},
+	settings: {
+		title: 'SETTINGS',
+		back: 'BACK',
+	},
 	proceedBtn: 'Play',
 	disclaimer: `DISCLAIMER
 
 No Horizon is a work of fiction.
 Any resemblance to real people, places, systems, memories, or feelings
-is unintentional… or coincidental… or unavoidable… or planned.
+is unintentional… or coincidental… or unavoidable… or planned…
 
 This game contains:
 - psychological horror

@@ -5,6 +5,7 @@
 import { subscribe, getTranslations } from '../lib/i18n';
 import { hasSaveGame } from '../lib/savegame';
 import type { LanguageChangeCallback } from '../lib/i18n';
+import { showSettings } from './settings';
 
 const menuButtons = {
 	begin: 'btn-begin',
@@ -14,6 +15,7 @@ const menuButtons = {
 };
 
 let saveGameExists = false;
+let menuScreen: HTMLElement | null = null;
 
 const updateMenuText: LanguageChangeCallback = (_lang, t) => {
 	const btnBegin = document.getElementById(menuButtons.begin);
@@ -58,6 +60,7 @@ const updateMenuText: LanguageChangeCallback = (_lang, t) => {
 export const initMenu = async (): Promise<void> => {
 	// Check for save game
 	saveGameExists = await hasSaveGame();
+	menuScreen = document.getElementById('menu-screen');
 
 	// Subscribe to language changes
 	subscribe(updateMenuText);
@@ -80,7 +83,8 @@ export const initMenu = async (): Promise<void> => {
 
 	btnOptions?.addEventListener('click', () => {
 		console.log('Options clicked');
-		// TODO: Implement options menu
+		menuScreen?.classList.add('menu-fade-out');
+		showSettings();
 	});
 
 	btnExit?.addEventListener('click', async () => {
@@ -100,6 +104,13 @@ export const initMenu = async (): Promise<void> => {
 		console.warn('appControl API not available, closing window');
 		window.close();
 	});
+};
+
+export const showMenuScreen = (): void => {
+	if (!menuScreen) {
+		menuScreen = document.getElementById('menu-screen');
+	}
+	menuScreen?.classList.remove('menu-fade-out');
 };
 
 export const showMenu = (): void => {

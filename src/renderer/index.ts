@@ -1,7 +1,16 @@
 // Renderer process entry point
 import './index.css';
 import { initClickSound, enableClickSound, initParallax, loadSavedLanguage } from './lib';
-import { initSplash, initDisclaimer, showDisclaimer, initMenu, showMenu, hideMenu } from './components';
+import {
+	initSplash,
+	initDisclaimer,
+	showDisclaimer,
+	initMenu,
+	showMenu,
+	hideMenu,
+	initSettings,
+	showMenuScreen,
+} from './components';
 
 console.log('Renderer process initialized');
 
@@ -17,6 +26,9 @@ hideMenu();
 // Initialize components
 const initializeComponents = async (): Promise<void> => {
 	await initMenu();
+	initSettings(() => {
+		showMenuScreen();
+	});
 	initDisclaimer(() => {
 		// Show menu after disclaimer is dismissed
 		showMenu();

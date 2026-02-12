@@ -24,6 +24,7 @@
   display: none;
 }
 
+
 /* Disclaimer Screen */
 #disclaimer-screen.show {
   opacity: 1;
@@ -51,4 +52,38 @@
 
 .disclaimer-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.5);
+}
+
+/* Main Menu Overlay Fixes */
+.menu-viewport {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.menu-layer {
+  border-radius: inherit;
+}
+
+.vhs-overlay {
+  inset: -2%;
+  will-change: transform;
+}
+
+/* Settings Screen */
+#settings-screen.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#settings-dim.show {
+  opacity: 1;
+}
+
+#menu-screen.menu-fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#settings-screen.fade-out #btn-settings-back {
+  opacity: 0;
 }

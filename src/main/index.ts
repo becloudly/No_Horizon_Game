@@ -20,6 +20,7 @@ const createWindow = (): void => {
       nodeIntegration: false,
       contextIsolation: true,
       sandbox: true,
+      autoplayPolicy: 'no-user-gesture-required',
     },
     show: false,
   });

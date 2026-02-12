@@ -5,33 +5,53 @@
 export const initSplash = (onComplete: () => void): void => {
 	const splashScreen1 = document.getElementById('splash-screen');
 	const splashScreen2 = document.getElementById('splash-screen-2');
-	
+
 	if (!splashScreen1 || !splashScreen2) {
 		console.warn('Splash screen elements not found');
 		onComplete();
 		return;
 	}
 
-	// First splash: show for 4 seconds then fade out
-	setTimeout(() => {
-		splashScreen1.classList.add('fade-out');
-		
-		// After first splash fades, show second splash
+	const splashScreens: HTMLElement[] = [splashScreen1, splashScreen2];
+	const showDurationMs = 4000;
+	const fadeDurationMs = 1000;
+
+	const showSplash = (element: HTMLElement): void => {
+		element.style.visibility = 'visible';
+		element.classList.remove('hidden', 'fade-out', 'opacity-100', 'reveal');
+		element.classList.add('opacity-0');
+	};
+
+	const hideSplash = (element: HTMLElement): void => {
+		element.classList.add('fade-out');
 		setTimeout(() => {
-			splashScreen1.classList.add('hidden');
-			splashScreen2.style.visibility = 'visible';
-			splashScreen2.classList.remove('opacity-0');
-			splashScreen2.classList.add('opacity-100');
-			
-			// Second splash: show for 4 seconds then fade out
+			element.classList.add('hidden');
+			element.classList.remove('opacity-100');
+			element.style.visibility = 'hidden';
+		}, fadeDurationMs);
+	};
+
+	const runSequence = (index: number): void => {
+		const current = splashScreens[index];
+		if (!current) {
+			onComplete();
+			return;
+		}
+
+		showSplash(current);
+		requestAnimationFrame(() => {
+			requestAnimationFrame(() => {
+				current.classList.remove('opacity-0');
+				current.classList.add('opacity-100');
+			});
+		});
+		setTimeout(() => {
+			hideSplash(current);
 			setTimeout(() => {
-				splashScreen2.classList.add('fade-out');
-				
-				setTimeout(() => {
-					splashScreen2.classList.add('hidden');
-					onComplete();
-				}, 1000); // Match CSS transition duration
-			}, 4000); // Show second splash for 4 seconds
-		}, 1000); // Match CSS transition duration
-	}, 4000); // Show first splash for 4 seconds
+				runSequence(index + 1);
+			}, fadeDurationMs);
+		}, showDurationMs);
+	};
+
+	runSequence(0);
 };

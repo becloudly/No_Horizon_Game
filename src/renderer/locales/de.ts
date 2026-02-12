@@ -10,12 +10,16 @@ export const de = {
 		options: 'OPTIONEN',
 		exit: 'VERLASSEN',
 	},
+	settings: {
+		title: 'EINSTELLUNGEN',
+		back: 'ZURÜCK',
+	},
 	proceedBtn: 'Spielen',
 	disclaimer: `DISCLAIMER
 
 No Horizon ist ein Werk der Fiktion.
 Jegliche Ähnlichkeit mit realen Personen, Orten, Systemen, Erinnerungen oder Gefühlen
-ist unbeabsichtigt… oder zufällig… oder unvermeidbar… oder geplant.
+ist unbeabsichtigt… oder zufällig… oder unvermeidbar… oder geplant…
 
 Dieses Spiel enthält:
 - psychologischen Horror
@@ -23,7 +27,7 @@ Dieses Spiel enthält:
 - Momente, die sich unnötig anfühlen können
 - Momente, die sich zu lang anfühlen können
 
-Einige Szenen können Unbehagen, Unwohlsein oder das vage Gefühl hervorrufen, etwas verpasst zu haben.
+Einige Szenen können Unbehagen, Unwohlsein oder das Gefühl hervorrufen, etwas verpasst zu haben.
 
 No Horizon garantiert keine klaren Antworten
 oder ein traditionelles Gefühl der Vollendung.
