@@ -7,7 +7,10 @@
     "Utilize 'playwright' for automated verification of the Electron window state.",
     "Prioritize Bun native APIs (Bun.serve, Bun.password, etc.) for performance.",
     "Files must be atomic and single-purpose. Maximize code splitting.",
-    "Silent execution: Do not explain code in chat; modify the filesystem directly."
+    "Silent execution: Do not explain code in chat; modify the filesystem directly.",
+    "Workflow hygiene: keep GitHub Actions minimal, define explicit permissions, and pin actions to major versions.",
+    "Security scanning: prefer CodeQL for JS/TS when adding security checks.",
+    "Dependabot: ensure npm and github-actions ecosystems are configured at repository root."
   ],
   "performance_targets": {
     "ipc_overhead": "minimal",

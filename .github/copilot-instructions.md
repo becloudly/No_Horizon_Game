@@ -30,6 +30,20 @@ No Chat/Tests: Do not output code blocks in the chat interface or generate test 
 
 Direct Interaction: The agent should use filesystem tools to write/update files directly rather than describing the changes.
 
+4. GitHub Actions & Security
+Workflows: Place CI/security workflows only in .github/workflows and keep them minimal.
+
+Permissions: Use least-privilege permissions in workflows (explicit permissions block).
+
+Action Versions: Pin actions to major versions (e.g., @v4) and let Dependabot manage updates.
+
+CodeQL: Prefer CodeQL for JS/TS security scanning when adding security checks.
+
+5. Dependabot
+Ecosystems: Maintain Dependabot entries for npm and github-actions at the repository root.
+
+Labels: Use the "dependencies" label for automated update PRs.
+
 Recommended Project Structure
 The agent should maintain and respect this hierarchy:
 
