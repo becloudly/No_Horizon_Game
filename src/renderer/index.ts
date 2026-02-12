@@ -1,7 +1,7 @@
 // Renderer process entry point
 import './index.css';
 import { initClickSound, enableClickSound, initParallax, loadSavedLanguage } from './lib';
-import { settings } from './lib/settings.svelte';
+import './lib/settings.svelte';
 import {
 	initSplash,
 	initDisclaimer,
