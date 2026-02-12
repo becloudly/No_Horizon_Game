@@ -13,6 +13,10 @@ export const en = {
 	settings: {
 		title: 'SETTINGS',
 		back: 'BACK',
+		language: 'LANGUAGE',
+		volume: 'VOLUME',
+		streamerMode: 'STREAMER MODE',
+		streamerModeTooltip: 'Hides personal information such as system details, file paths, and other identifying data during gameplay recordings or streams.',
 	},
 	proceedBtn: 'Play',
 	disclaimer: `DISCLAIMER

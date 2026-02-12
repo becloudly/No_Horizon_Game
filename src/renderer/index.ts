@@ -1,6 +1,7 @@
 // Renderer process entry point
 import './index.css';
 import { initClickSound, enableClickSound, initParallax, loadSavedLanguage } from './lib';
+import './lib/settings.svelte';
 import {
 	initSplash,
 	initDisclaimer,
@@ -22,6 +23,9 @@ initParallax();
 
 // Hide menu initially
 hideMenu();
+
+// Initialize Svelte settings store (loads from localStorage automatically)
+console.log('Settings loaded from localStorage');
 
 // Initialize components
 const initializeComponents = async (): Promise<void> => {
