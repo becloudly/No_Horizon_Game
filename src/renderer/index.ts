@@ -1,6 +1,7 @@
 // Renderer process entry point
 import './index.css';
 import { initClickSound, enableClickSound, initParallax, loadSavedLanguage } from './lib';
+import { loadSettings } from './lib/settings-store';
 import {
 	initSplash,
 	initDisclaimer,
@@ -22,6 +23,10 @@ initParallax();
 
 // Hide menu initially
 hideMenu();
+
+// Load settings from localStorage
+loadSettings();
+console.log('Settings loaded from localStorage');
 
 // Initialize components
 const initializeComponents = async (): Promise<void> => {

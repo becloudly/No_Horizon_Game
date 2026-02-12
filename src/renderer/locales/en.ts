@@ -13,6 +13,10 @@ export const en = {
 	settings: {
 		title: 'SETTINGS',
 		back: 'BACK',
+		language: 'LANGUAGE',
+		volume: 'VOLUME',
+		streamerMode: 'STREAMER MODE',
+		streamerModeTooltip: 'Hides personal IP addresses, server names, and sensitive user info to prevent stream sniping.',
 	},
 	proceedBtn: 'Play',
 	disclaimer: `DISCLAIMER
