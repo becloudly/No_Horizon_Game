@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@motionone/dom": "^10.18.0",
-    "svelte": "^5.50.1",
+    "svelte": "^5.51.1",
     "three": "^0.182.0"
   },
   "build": {
